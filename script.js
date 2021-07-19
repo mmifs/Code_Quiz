@@ -14,11 +14,16 @@ var intialsInput = document.createElement("input");
 var timeLeft = 60;
 var userInitials = "";
 var makeButton = document.createElement("button");
+var user = showNames();
+var storedScores = [Object.entries(localStorage)];
+var textNode = document.createTextNode("")
+var textNode2 = document.createTextNode("")
 makeButton.type = "button";
 makeButton.textContent = "submit";
 makeButton.id = "submitButton";
 intialsInput.type = "text";
 intialsInput.value = "";
+
 var questions = [
     "Commonly used data types DO NOT include:",
     "The condition in an if / else statement is enclosed within ____.",
@@ -31,7 +36,7 @@ function createBtn(){
     x.setAttribute("id", i)
     var y = document.createTextNode(q0Answers[i])
     x.appendChild(y);
-    document.body.appendChild(x);
+    document.getElementById("answers").appendChild(x);
 }
 
 var q0Answers = [
@@ -137,6 +142,28 @@ function startQuestion3(){
     document.getElementById("3").addEventListener("click", endQuiz);
 }
 
+function showNames(){
+    var userNames = []
+    keys = Object.keys(localStorage)
+    i = keys.length;
+    while (i--) {
+        userNames.push(localStorage.getItem(keys[i]));
+        console.log(userNames[i]);
+    }
+    return userNames;
+}
+
+function showScores(){
+    var userScores = []
+    scores = Object.values(localStorage)
+    i = scores.length;
+    while (i--) {
+        userScores.push(localStorage.getItem(scores[i]));
+        console.log(userScores[i]);
+    }
+    return userScores;
+}
+
 function endQuiz(){
     var button0 = document.getElementById("0");
     var button1 = document.getElementById("1");
@@ -151,8 +178,7 @@ function endQuiz(){
     intialsInput.setAttribute("id", "userID");
     document.getElementById("question").appendChild(intialsInput);
     document.getElementById("question").appendChild(makeButton);
-    document.getElementById("submitButton").addEventListener("click", submitIntials);
-
+    document.getElementById("submitButton").addEventListener("click", submitInitials);
 }
 
 function startQuiz(){
@@ -169,11 +195,23 @@ function startQuiz(){
 
 }
 
-function submitIntials(){
+
+function submitInitials(){
     var userInitials = document.getElementById("userID").value;
     console.log("initials are", userInitials)
     console.log("score is", timer - 1)
     localStorage.setItem(userInitials, JSON.stringify(timer - 1));
+}
+
+function postScores(){
+    for (var i = 0; i < 9; i++){
+        document.getElementById("scores").appendChild(textNode)
+        textNode.textContent = storedScores[0][i][0];
+        document.getElementById("scores").appendChild(textNode)
+        textNode.textContent = storedScores[0][i][1]
+        //textnode.tex(Object.entries(localStorage)[i][2]);
+    //}
+    }
 }
 
 //function collectInfo(){
@@ -181,4 +219,7 @@ function submitIntials(){
     //console.log(userInitials)
 //}
 
+//showNames();
+//showScores();
+//postScores();
 document.getElementById("start").addEventListener("click", startQuiz);
