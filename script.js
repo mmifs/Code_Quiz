@@ -4,18 +4,21 @@
 // make answers affect timer or not
 // save remaining time as score
 // assign score to initials
-var timeLeft = 1;
+var button0 = document.getElementById("0")
+var button1 = document.getElementById("1")
+var button2 = document.getElementById("2")
+var button3 = document.getElementById("3")
 var startButton = document.getElementById("start");
 var timer = document.querySelector("#timerID");
-var intialsInput = document.createElement("input")
-var quizTimer = setInterval(function currentTime(){
-    if (timeLeft <= 1){
-        clearInterval(quizTimer);
-    }
-    timer = timeLeft;
-        timeLeft -= 1;
-        document.getElementById("timerID").innerText = timeLeft;
-    }, 1000);
+var intialsInput = document.createElement("input");
+var timeLeft = 60;
+var userInitials = "";
+var makeButton = document.createElement("button");
+makeButton.type = "button";
+makeButton.textContent = "submit";
+makeButton.id = "submitButton";
+intialsInput.type = "text";
+intialsInput.value = "";
 var questions = [
     "Commonly used data types DO NOT include:",
     "The condition in an if / else statement is enclosed within ____.",
@@ -135,14 +138,24 @@ function startQuestion3(){
 }
 
 function endQuiz(){
+    var button0 = document.getElementById("0");
+    var button1 = document.getElementById("1");
+    var button2 = document.getElementById("2");
+    var button3 = document.getElementById("3");
+    button0.remove();
+    button1.remove();
+    button2.remove();
+    button3.remove();
     clearInterval(quizTimer);
-    document.getElementById("question").innerText = "Enter your Initials!"
-    intialsInput.setAttribute("id", "userID")
-    
+    document.getElementById("question").innerText = "Enter your Initials!";
+    intialsInput.setAttribute("id", "userID");
+    document.getElementById("question").appendChild(intialsInput);
+    document.getElementById("question").appendChild(makeButton);
+    document.getElementById("submitButton").addEventListener("click", submitIntials);
+
 }
 
 function startQuiz(){
-    var timeLeft = 60;
     quizTimer = setInterval(function currentTime(){
         if (timeLeft <= 1){
             clearInterval(quizTimer);
@@ -155,5 +168,17 @@ function startQuiz(){
     startQuestion0()
 
 }
+
+function submitIntials(){
+    var userInitials = document.getElementById("userID").value;
+    console.log("initials are", userInitials)
+    console.log("score is", timer - 1)
+    localStorage.setItem(userInitials, JSON.stringify(timer - 1));
+}
+
+//function collectInfo(){
+    //var userInitials = document.querySelector("#userID").value;
+    //console.log(userInitials)
+//}
 
 document.getElementById("start").addEventListener("click", startQuiz);
